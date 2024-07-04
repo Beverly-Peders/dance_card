@@ -1,1 +1,170 @@
-Dance Card 
+title: start
+---
+
+<<declare $gossip = 0>>
+<<declare $charm = 0>>
+<<declare $poise = 0>>
+<<declare $respect = 0>>
+<<declare $surname = "">>
+
+Choose your character: 
+    -> Lizzie Lightfoot, the best dancer in the city.
+        Miss Lightfoot will increase your success at dancing! 
+            -> Select Lizzie Lightfoot. 
+                <<set $poise = $poise +1>>
+                <<set $surname = "Lightfoot">>
+                <<jump arrival>>
+            -> Select another character. 
+                <<jump Start>>
+    -> Wilomena von Riche, daughter of the mayor and in possession of a spotless reputation. 
+        Miss von Riche will be able to reduce scandal more. 
+            -> Select Wilomena von Riche.
+                <<set $respect = $respect +1>>
+                <<set $surname = "von Riche">>
+                <<jump arrival>>
+            -> Select another character. 
+                <<jump Start>>
+    -> Isobella Bianchi, always able to charm her way through conversations. 
+        Miss Bianchi's charm will help her navigate scandal and gossip.
+            -> Select Isobella Bianchi.
+                <<set $charm = $charm +1>>
+                <<set $surname = "Bianchi">>
+                <<jump arrival>>
+            -> Select another character. 
+                <<jump Start>>
+    -> Fleur Lavigne, a gossip most extrodinaire! No secret is safe from her. 
+        Miss Lavigne always gets the truth through gossip. 
+            -> Select Fluer Lavigne.
+                <<set $gossip = $gossip +1>>
+                <<set $surname = "Lavigne">>
+                <<jump arrival>>
+            -> Select another character. 
+                <<jump Start>>
+    -> Pauline Edwards, a mysterious lady no one has heard of before. What intrigue! 
+        Miss Edwards is quite the wild card. No one knows what her skills are. 
+            -> Select Pauline Edwards.
+                <<if dice(4) == 1>>
+                    <<set $poise = $poise +1>>
+                <<elseif dice(4) == 2>>
+                    <<set $respect = $respect +1>>
+                <<elseif dice(4) == 3>>
+                    <<set $charm = $charm +1>>
+                <<elseif dice(4) == 4>>
+                    <<set $gossip = $gossip +1>>
+                <<endif>>
+                <<set $surname = "Lavigne">>
+                <<jump arrival>>
+            -> Select another character.
+                <<jump Start>>
+    -> Sofie de Vries, a young woman new to society. 
+        Miss de Vries hasn't yet had time to master any skills of society. 
+            -> Select Sofie de Vries
+                <<set $surname = "de Vries">>
+                <<jump arrival>>
+            -> Select another character. 
+                <<jump Start>>
+
+===
+
+title: arrival
+---
+
+<<declare $scandal = 0>>
+<<declare $time = 15>>
+
+Miss {$surname} arrives in the ballroom. DESCRIBE. Your dance card is empty, all of the ton is here, and the music is starting. 
+You take in the eligible bachelors mingling. 
+
+Logan Berithorne, always on the scandal sheet but somehow there's still plenty of women on his arms.
+Archibald Wethers, the heir of a well-established family and a hefty fortune.
+Baxter Olson, a rather shy young man and the youngest of eight brothers. 
+Charlie Davenport, a decorated soldier with a desire to travel. 
+Ernest Langston, quick-witted and always eager to talk
+
+<<declare $LB_like = 0>>
+<<declare $AW_like = 0>>
+<<declare $BO_like = 0>>
+<<declare $CD_like = 0>>
+<<declare $EL_like = 0>>
+
+<<jump dance_floor>>
+
+===
+
+title: dance_floor
+---
+
+<<declare $dance_partner = 0>>
+<<declare $convo = 0>>
+
+Turns left - {$time}
+Scandal - {$scandal}/10
+
+DESCRIBE dance floor. 
+Where do you begin? 
+    -> Gossip 
+        Learn more about the eligible bachelors through gossip - but be careful, some rumors are not always true. 
+        -> Eavesdrop on some gossip 
+            <<jump hot_goss>>
+        -> Go back
+            <<jump dance_floor>>
+    -> Dance 
+        Take a twirl on the dance floor to impress, but with whom?
+            -> Logan Berithorne 
+                <<set $dance_partner = 1>>
+                <<jump dance>>
+            -> Archibald Wethers
+                <<set $dance_partner = 2>>
+                <<jump dance>>  
+            -> Charlie Davenport
+                <<set $dance_partner = 3>>
+                <<jump dance>>
+            -> Ernest Langston
+                <<set $dance_partner = 4>>
+                <<jump dance>>
+            -> Baxter Olson
+                <<set $dance_partner = 5>>
+                <<jump dance>>
+            -> Go back 
+                <<jump dance_floor>>
+    -> Converse
+        Try catching one of the bachelors at the punch bowl for a few words, make them count!
+            -> Logan Berithorne
+                <<set $convo = 1>>
+                <<jump conversation>>
+            -> Archibald Wethers
+                <<set $convo = 2>>
+                <<jump conversation>>
+            -> Charlie Davenport
+                <<set $convo = 3>>
+                <<jump conversation>>
+            -> Ernest Langston
+                <<set $convo = 4>>
+                <<jump conversation>>
+            -> Baxter Olson 
+                <<set $convo = 5>>
+                <<jump conversation>>
+            -> Go back
+                <<jump dance_floor>>
+    -> Repose
+        Need a moment out of the spotlight for everyone to forget your blunders? Take a quick repose outside the ballroom.
+            -> Seek shelter from society.
+                <<jump repose>>
+            -> Go back
+
+===
+
+title: hot_goss
+---
+gossip
+===
+
+title: conversation
+---
+talk
+===
+
+title: repose
+---
+repose
+===
