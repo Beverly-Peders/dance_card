@@ -1,11 +1,11 @@
 title: start
 ---
-
 <<declare $gossip = 0>>
 <<declare $charm = 0>>
 <<declare $poise = 0>>
 <<declare $respect = 0>>
 <<declare $surname = "">>
+<<declare $d_dice = 0>>
 
 Choose your character: 
     -> Lizzie Lightfoot, the best dancer in the city.
@@ -43,13 +43,14 @@ Choose your character:
     -> Pauline Edwards, a mysterious lady no one has heard of before. What intrigue! 
         Miss Edwards is quite the wild card. No one knows what her skills are. 
             -> Select Pauline Edwards.
-                <<if dice(4) == 1>>
+                <<set $d_dice = dice(4)>>
+                <<if $d_dice == 1>>
                     <<set $poise = $poise +1>>
-                <<elseif dice(4) == 2>>
+                <<elseif $d_dice  == 2>>
                     <<set $respect = $respect +1>>
-                <<elseif dice(4) == 3>>
+                <<elseif $d_dice  == 3>>
                     <<set $charm = $charm +1>>
-                <<elseif dice(4) == 4>>
+                <<elseif $d_dice  == 4>>
                     <<set $gossip = $gossip +1>>
                 <<endif>>
                 <<set $surname = "Lavigne">>
@@ -65,10 +66,8 @@ Choose your character:
                 <<jump Start>>
 
 ===
-
 title: arrival
 ---
-
 <<declare $scandal = 0>>
 <<declare $time = 15>>
 
@@ -87,15 +86,19 @@ Ernest Langston, quick-witted and always eager to talk
 <<declare $CD_like = 0>>
 <<declare $EL_like = 0>>
 
+<<declare $dc_1 = 0>>
+<<declare $dc_2 = 0>>
+<<declare $dc_3 = 0>>
+<<declare $dc_4 = 0>>
+<<declare $dc_5 = 0>>
+
 <<jump dance_floor>>
-
 ===
-
-title: dance_floor
+title: ball
 ---
-
 <<declare $dance_partner = 0>>
 <<declare $convo = 0>>
+// need to track how many you dance with? 
 
 Turns left - {$time}
 Scandal - {$scandal}/10
@@ -107,51 +110,214 @@ Where do you begin?
         -> Eavesdrop on some gossip 
             <<jump hot_goss>>
         -> Go back
-            <<jump dance_floor>>
+            <<jump ball>>
     -> Dance 
         Take a twirl on the dance floor to impress, but with whom?
-            -> Logan Berithorne 
+            -> Logan Berithorne <<if $dc_1 <= 1>>
                 <<set $dance_partner = 1>>
-                <<jump dance>>
-            -> Archibald Wethers
+                <<jump dance_1>>
+            -> Archibald Wethers <<if $dc_2 <= 1>>
                 <<set $dance_partner = 2>>
-                <<jump dance>>  
-            -> Charlie Davenport
+                <<jump dance_2>>  
+            -> Charlie Davenport <<if $dc_3 <= 1>>
                 <<set $dance_partner = 3>>
-                <<jump dance>>
-            -> Ernest Langston
+                <<jump dance_3>>
+            -> Ernest Langston <<if $dc_4 <= 1>>
                 <<set $dance_partner = 4>>
-                <<jump dance>>
-            -> Baxter Olson
+                <<jump dance_4>>
+            -> Baxter Olson <<if $dc_5 <= 1>>
                 <<set $dance_partner = 5>>
-                <<jump dance>>
+                <<jump dance_5>>
             -> Go back 
-                <<jump dance_floor>>
+                <<jump ball>>
     -> Converse
         Try catching one of the bachelors at the punch bowl for a few words, make them count!
             -> Logan Berithorne
                 <<set $convo = 1>>
-                <<jump conversation>>
+                <<jump conversation_1>>
             -> Archibald Wethers
                 <<set $convo = 2>>
-                <<jump conversation>>
+                <<jump conversation_2>>
             -> Charlie Davenport
                 <<set $convo = 3>>
-                <<jump conversation>>
+                <<jump conversation_3>>
             -> Ernest Langston
                 <<set $convo = 4>>
-                <<jump conversation>>
+                <<jump conversation_4>>
             -> Baxter Olson 
                 <<set $convo = 5>>
-                <<jump conversation>>
+                <<jump conversation_5>>
             -> Go back
-                <<jump dance_floor>>
+                <<jump ball>>
     -> Repose
-        Need a moment out of the spotlight for everyone to forget your blunders? Take a quick repose outside the ballroom.
+        Need a moment out of the spotlight for everyone to forget your blunders? Take a quick respite outside the ballroom.
             -> Seek shelter from society.
                 <<jump repose>>
             -> Go back
+                <<jump ball>>
 
+===
+title: dance_1
+---
+
+<<if $LB_like > 3>>
+    <<set $d_dice = dice(8)>>
+<<else>>
+    <<set $d_dice = dice(5)>>
+<<endif>>
+
+<<set $dc_1 = $dc_1 + 1>>
+<<if $dc_2 > 0>>
+    <<set $dc_2 = $dc_2 - 1>>
+<<else>>
+<<endif>>
+<<if $dc_3 > 0>>
+    <<set $dc_3 = $dc_3 - 1>>
+<<else>>
+<<endif>>
+<<if $dc_4 > 0>>
+    <<set $dc_4 = $dc_4 - 1>>
+<<else>>
+<<endif>>
+<<if $dc_5 > 0>>
+    <<set $dc_5 = $dc_5 - 1>>
+<<else>>
+<<endif>>
+
+<<if $d_dice  == 1>>
+    <<if visited("d_1_1") == true>>
+        <<jump dance_1>>
+    <<else>>
+        <<jump d_1_1>>
+    <<endif>>
+<<elseif $d_dice  == 2>>
+    <<if visited("d_1_2") == true>>
+        <<jump dance_1>>
+    <<else>>
+        <<jump d_1_2>>
+    <<endif>>
+<<elseif $d_dice  == 3>>
+    <<if visited("d_1_3") == true>>
+        <<jump dance_1>>
+    <<else>>
+        <<jump d_1_3>>
+    <<endif>>
+<<elseif $d_dice  == 4>>
+    <<if visited("d_1_4") == true>>
+        <<jump dance_1>>
+    <<else>>
+        <<jump d_1_4>>
+    <<endif>>
+<<elseif $d_dice  == 5>>
+    <<if visited("d_1_5") == true>>
+        <<jump dance_1>>
+    <<else>>
+        <<jump d_1_5>>
+    <<endif>>
+<<elseif $d_dice  == 6>>
+    <<if visited("d_1_6") == true>>
+        <<jump dance_1>>
+    <<else>>
+        <<jump d_1_6>>
+    <<endif>>
+<<elseif $d_dice  == 7>>
+    <<if visited("d_1_7") == true>>
+        <<jump dance_1>>
+    <<else>>
+        <<jump d_1_7>>
+    <<endif>>
+<<elseif $d_dice  == 8>>
+    <<if visited("d_1_8") == true>>
+        <<jump dance_1>>
+    <<else>>
+        <<jump d_1_8>>
+    <<endif>>
+<<endif>>
+===
+
+title: d_1_1
+---
+Forced into dance
+    -> Be bold
+        +2 interest
+        +1 scandal
+        <<jump ball>>
+    -> Let him lead
+        Neutral
+        <<jump ball>>
+    -> Pull closer
+        +1 interest
+        +1 scandal
+        <<jump ball>>
+    -> Abandon the dance floor
+        -1 interest
+        +2 scandal
+        <<jump ball>>
+===
+title: d_1_2
+---
+He gives a back handed compliment during dance
+    -> Say nothing
+        Neutral
+        <<jump ball>>
+    -> Insult him back
+        +2 interest
+        +1 scandal
+        <<jump ball>>
+    -> Slap him
+        +1 interest
+        +2 scandal
+        <<jump ball>>
+    -> Flee
+        -1 interest
+        +2 scandal
+        <<jump ball>>
+===
+title: d_1_3
+---
+He is approached by you and another woman at the same time. He makes it a game. 
+    -> Flatter him. He selects you
+        +1 interest
+        <<jump ball>>
+    -> Step on her skirt so it tears
+        +2 scandal
+        +2 interest 
+        <<jump ball>>
+    -> You're better than this kind of game
+        -1 interest
+        <<jump ball>>
+    -> Insult him 
+        +2 interest
+        <<jump ball>>
+===
+title: d_1_4
+---
+He has a drink and says he can't dance, his hands are full. 
+===
+title: d_1_5
+---
+Tries to warn you about dancing with him.
+===
+// add 
+
+title: dance_2
+---
+dance
+===
+
+title: dance_3
+---
+dance
+===
+
+title: dance_4
+---
+dance
+===
+
+title: dance_5
+---
+dance
 ===
 
 title: hot_goss
@@ -159,7 +325,27 @@ title: hot_goss
 gossip
 ===
 
-title: conversation
+title: conversation_1
+---
+talk
+===
+
+title: conversation_2
+---
+talk
+===
+
+title: conversation_3
+---
+talk
+===
+
+title: conversation_4
+---
+talk
+===
+
+title: conversation_5
 ---
 talk
 ===
