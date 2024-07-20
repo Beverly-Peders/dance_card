@@ -32,7 +32,7 @@ Choose your character:
                 <<jump arrival>>
             -> Select another character. 
                 <<jump Start>>
-    -> Fleur Lavigne, a gossip most extrodinaire! No secret is safe from her. 
+    -> Fleur Lavigne, a gossip extraordinaire! No secret is safe from her. 
         Miss Lavigne always gets the truth through gossip. 
             -> Select Fluer Lavigne.
                 <<set $gossip = $gossip +1>>
@@ -85,6 +85,7 @@ Ernest Langston, quick-witted and always eager to talk
 <<declare $BO_like = 0>>
 <<declare $CD_like = 0>>
 <<declare $EL_like = 0>>
+<<declare $LM_like = 0>>
 
 <<declare $dc_1 = 0>>
 <<declare $dc_2 = 0>>
@@ -96,64 +97,77 @@ Ernest Langston, quick-witted and always eager to talk
 ===
 title: ball
 ---
-<<declare $dance_partner = 0>>
-<<declare $convo = 0>>
-// need to track how many you dance with? 
+
+// add in triggers for indecency that happen when you reach a certain level with a bachelor. Attempts to be alone/sleep with/etc and if caught, immediately scandalized
+// also need a proposal trigger
+// and a time out trigger
+// and a scandal trigger
+// create a side story where you can enemies to lovers Lilian Martin
+// or one in which LM and LB threesome?
+
 
 Turns left - {$time}
 Scandal - {$scandal}/10
 
 DESCRIBE dance floor. 
+<<if $dc_1 == 2>>
+	Dancing with the same person more than twice is highly frowned upon and the ton is watching.
+<<endif>>
+<<if $dc_2 == 2>>
+	Dancing with the same person more than twice is highly frowned upon and the ton is watching.
+<<endif>>
+<<if $dc_3 == 2>>
+	Dancing with the same person more than twice is highly frowned upon and the ton is watching.
+<<endif>>
+<<if $dc_4 == 2>>
+<<endif>>
+	Dancing with the same person more than twice is highly frowned upon and the ton is watching.
+<<if $dc_5 == 2>>
+	Dancing with the same person more than twice is highly frowned upon and the ton is watching.
+<<endif>>
+
+
+
 Where do you begin? 
-    -> Gossip 
+    -> Gossip <<if $scandal < 5>> 
         Learn more about the eligible bachelors through gossip - but be careful, some rumors are not always true. 
-        -> Eavesdrop on some gossip 
+        -> Mingle near the mamas to pick up on the latest. 
             <<jump hot_goss>>
-        -> Go back
+        -> You don't need gossip right now. 
             <<jump ball>>
-    -> Dance 
+    -> Dance <<if $scandal < 5>>
         Take a twirl on the dance floor to impress, but with whom?
             -> Logan Berithorne <<if $dc_1 <= 1>>
-                <<set $dance_partner = 1>>
                 <<jump dance_1>>
             -> Archibald Wethers <<if $dc_2 <= 1>>
-                <<set $dance_partner = 2>>
                 <<jump dance_2>>  
             -> Charlie Davenport <<if $dc_3 <= 1>>
-                <<set $dance_partner = 3>>
                 <<jump dance_3>>
             -> Ernest Langston <<if $dc_4 <= 1>>
-                <<set $dance_partner = 4>>
                 <<jump dance_4>>
             -> Baxter Olson <<if $dc_5 <= 1>>
-                <<set $dance_partner = 5>>
                 <<jump dance_5>>
-            -> Go back 
+            -> You're a little tired, maybe some refreshment is in order instead. 
                 <<jump ball>>
-    -> Converse
+    -> Converse <<if $scandal < 5>>         
         Try catching one of the bachelors at the punch bowl for a few words, make them count!
             -> Logan Berithorne
-                <<set $convo = 1>>
                 <<jump conversation_1>>
             -> Archibald Wethers
-                <<set $convo = 2>>
                 <<jump conversation_2>>
             -> Charlie Davenport
-                <<set $convo = 3>>
                 <<jump conversation_3>>
             -> Ernest Langston
-                <<set $convo = 4>>
                 <<jump conversation_4>>
             -> Baxter Olson 
-                <<set $convo = 5>>
                 <<jump conversation_5>>
-            -> Go back
+            -> You're feeling a little tongue tied. Probably best not to engage in conversation right now.
                 <<jump ball>>
     -> Repose
         Need a moment out of the spotlight for everyone to forget your blunders? Take a quick respite outside the ballroom.
             -> Seek shelter from society.
                 <<jump repose>>
-            -> Go back
+            -> What blunders?
                 <<jump ball>>
 
 ===
@@ -167,22 +181,10 @@ title: dance_1
 <<endif>>
 
 <<set $dc_1 = $dc_1 + 1>>
-<<if $dc_2 > 0>>
-    <<set $dc_2 = $dc_2 - 1>>
-<<else>>
-<<endif>>
-<<if $dc_3 > 0>>
-    <<set $dc_3 = $dc_3 - 1>>
-<<else>>
-<<endif>>
-<<if $dc_4 > 0>>
-    <<set $dc_4 = $dc_4 - 1>>
-<<else>>
-<<endif>>
-<<if $dc_5 > 0>>
-    <<set $dc_5 = $dc_5 - 1>>
-<<else>>
-<<endif>>
+<<set $dc_2 = 0>>
+<<set $dc_3 = 0>>
+<<set $dc_4 = 0>>
+<<set $dc_5 = 0>>
 
 <<if $d_dice  == 1>>
     <<if visited("d_1_1") == true>>
@@ -237,68 +239,163 @@ title: dance_1
 
 title: d_1_1
 ---
-Forced into dance
-    -> Be bold
-        +2 interest
-        +1 scandal
+Logan looks at his empty glass and sets it down. 
+Logan: “I guess there's nothing interesting happening.”
+He escorts you to the dance floor and a sultry waltz plays.
+Logan: “How about we make something interesting happen, Miss {$surname}?”
+Logan pulls you in close. 
+    -> Why not go even further? Take the lead. 
+        <<set $LB_like = $LB_like + 2>>
+        <<set $scandal = $scandal + 1>>
+        Logan seamlessly takes on the role of the follower, even so far as to take the dip at the end with a huge grin on his face.
+        When the music ends, he almost seems sad to hear it. 
+        He kisses your gloved hand as whispers flutter about. 
+        Logan: “It's been a sincere pleasure, Miss {$surname}.” 
         <<jump ball>>
-    -> Let him lead
-        Neutral
+    -> Follow his lead. It could be fun. 
+        Logan guides you through an energetic improvisation of the waltz, weaving in and out of the other dancers with a few near collisions. 
+        Once you've spun enough to think you'll be sick, the music ends and Logan takes a bow with a look of disappointment.
+        Logan: “It was a distraction at the most. We'll have to do better next time, Miss {$surname}.”
         <<jump ball>>
-    -> Pull closer
-        +1 interest
-        +1 scandal
+    -> Pull him in even closer.
+	    <<set $LB_like = $LB_like + 1>>
+        <<set $scandal = $scandal + 1>>
+        Logan raises an eyebrow as his smile curves into rakish pleasure. 
+        Logan: “My dear, I hope you know what you're getting into.” 
+        You glide along the dance floor with Logan pinned to you like a brooch. His face so tantalizingly close to yours that if you dared look up, your lips would brush. 
+        The music ends and he kisses your gloved hand. 
+        Logan: “Don't go far, Miss {$surname}.”
         <<jump ball>>
-    -> Abandon the dance floor
-        -1 interest
-        +2 scandal
+    -> Stick to the dance. 
+        <<set $LB_like = $LB_like - 1>>
+        <<set $scandal = $scandal + 2>>
+        Logan takes a few turns, but fights the structure of the dance. 
+        A couple collisions with other dancers, a mangled foot under his heel, and an elbow in an unmentionable place makes the dance feel like it's taking forever. 
+        The music ends and Logan storms off the dance floor immediately in a flurry of whispers and salacious smiles. 
         <<jump ball>>
+
 ===
 title: d_1_2
 ---
-He gives a back handed compliment during dance
-    -> Say nothing
-        Neutral
+Logan sighs, looking around at the fleeting entertainment. 
+Logan: “What else am I to do?”
+He looks you up and down as he escorts you to the dance floor. 
+Logan: “I've heard lace is out of fashion right now, but it's nice to see someone going against the grain.”
+    -> Don't dignify his backhanded compliment with a response. 
+        You dance in silence, making the minuet a stiff and awkward affair. 
+	    By the time the music dies, Logan's attention is elsewhere and he drifts out of sight among the rest of the ton. 
         <<jump ball>>
-    -> Insult him back
-        +2 interest
-        +1 scandal
+    -> Return the “compliment”. 
+        <<set $LB_like = $LB_like + 2>>
+        Miss {$surname}: “I wouldn't have thought you a man of fashion, judging by your eclectic tastes.” 
+        Logan's smile stretches to his ears as he guides you through the minuet. 
+        Logan: “You should hope my tastes are eclectic if you wish them to include you.” 
+        The music ends and Logan kisses your gloved hand. 
+        Logan: “And I daresay they might.” 
         <<jump ball>>
-    -> Slap him
-        +1 interest
-        +2 scandal
+    -> Strike him for his appalling behavior. 
+	    <<set $LB_like = $LB_like + 1>>
+        <<set $scandal = $scandal + 2>>
+     	WHACK! Your gloved hand makes quite the sound against his cheek. 
+        Logan brushes the slightly tinged area of his cheek with the back of his hand. 
+        Logan: “Touche.”
+        You storm away, but can feel the lingering eyes of Logan on you until the end of the song.  
         <<jump ball>>
-    -> Flee
-        -1 interest
-        +2 scandal
+    -> Refuse the dance. 
+	    <<set $LB_like = $LB_like -1>>
+        <<set $scandal = $scandal + 2>>
+	    You fight back the tears admirably as you abandon him on the dance floor, the music just picking up. 
+	    Whispers cloud you as you find a corner to fan the redness from your face. 
         <<jump ball>>
 ===
 title: d_1_3
 ---
-He is approached by you and another woman at the same time. He makes it a game. 
-    -> Flatter him. He selects you
-        +1 interest
+You approach Logan just as another lady steps up with her dance card out. Lillian Martin. Her bright red hair curls around her face perfectly. 
+He flashes the smile of a trickster. 
+Logan: “How will I ever choose?” 
+    -> Flatter Logan. 
+        <<set $LB_like = $LB_like + 1>>
+        <<set $LM_like = $LM_like - 1>>
+        Miss {$surname}: “By using your sharp wit, my lord.” //fix
+        Lillian stammers and Logan takes you by the hand. 
+        Logan: “Sharp wit is not all that I possess.” 
         <<jump ball>>
-    -> Step on her skirt so it tears
-        +2 scandal
-        +2 interest 
+    -> Step on Lillian's skirt. 
+        <<set $LB_like = $LB_like + 1>>
+        <<set $LM_like = $LM_like - 2>>
+        <<set $scandal = $scandal + 2>> 
+        As Lillian says something clever to Logan, you position your heel over her skirt just so…
+        Logan takes her by the hand and the loud shriek of layers of silk tearing echoes off the marble. 
+        Heads turn as you pick up your heel and notice the long slit up the back of her skirt. 
+        Miss {$surname}: “Oops. How clumsy of me.” 
+        Lillian holds her head high as she excuses herself, a fire in her eyes that will no doubt feed a frenzy of rumors against you. 
+        Logan: “What a bold move. It looks like there's only one choice left for me.” 
+        Logan escorts you to the dance floor. 
         <<jump ball>>
-    -> You're better than this kind of game
-        -1 interest
+    -> This is no game for a lady. 
+        <<set $LB_like = $LB_like - 1>>
+        <<set $LM_like = $LM_like + 1>>
+        You turn up your nose at the mere idea of this foolish game. 
+        Miss {$surname}: “You won't have to. I refuse to be a part of this.” 
+        Logan: “You're no fun.” 
+        Logan takes Lillian's hand in his and leads her to the dance floor. 
         <<jump ball>>
-    -> Insult him 
-        +2 interest
+    -> Insult Logan.
+        <<set $LB_like = $LB_like + 2>>
+        <<set $LM_like = $LM_like + 2>>
+        <<set $scandal = $scandal + 1>> 
+        Miss {$surname}: “I know two lovely women come as a shock to you since you can barely handle one.” 
+        Logan raises an eyebrow with interest as Lillian stifles a giggle. 
+        Logan: “Am I seeing this? You've made the notorious gossip blush!”
+        Logan takes your arm on his. 
+        Logan: “I'll have to get you away from her before she steals you away instead.”
         <<jump ball>>
+
 ===
 title: d_1_4
 ---
-He has a drink and says he can't dance, his hands are full. 
+Logan swirls the ratafia in his glass. 
+Logan: “Clearly I'd love to take to the dance floor, but as you can see I am still enjoying my beverage.”
+	-> Wait patiently.
+        <<set $LB_like = $LB_like - 1>>
+        Logan sips the drink very slowly, making eye contact with you the whole time. Slurping loudly. 
+        He smacks his lips and burps, anything to make your wait as unpleasant as possible. 
+        The song ends and he continues to swirl the ratafia in his glass. 
+        You cut your losses and walk away from him. 
+        <<jump ball>>
+	-> Take the drink from him. 
+        <<set $LB_like = $LB_like + 1>> 
+        You snatch the glass from his hand and set it down on a nearby table. 
+		Miss {$surname}: “Looks like your hands are free now.”
+		Logan: “My my, a little forceful are we?”
+		Logan takes your hand and escorts you to the dance floor. 
+		Logan: “Sadly, only a little.”
+		<<jump ball>>
+	-> Finish the drink for him. 
+        <<set $LB_like = $LB_like + 2>>
+        <<set $scandal = $scandal + 1>>
+        You snatch the glass from his hand and knock back the ratafia, setting it down on a passing waiter's tray. 
+        Logan looks at you with a mixture of fascination, fear, and a third thing you're not entirely sure about but it's akin to delight.
+        He offers his arm. 
+        Logan: “May I have the pleasure of this dance, Miss {$surname}?” 
+	-> Spill his drink.
+		<<set $LB_like = $LB_like + 1>>
+		<<set $scandal = $scandal + 2>>
+		Like a cat eyeing glassware on a table, you smack the glass in his hands. 
+		It tumbles from his grip onto the floor, spilling the red liquid and shattering the glass. 
+		Miss {$surname}: “Looks like your hands are free now.” 
+		Logan side steps the splattered wine as servants appear with towels. 
+		Logan: “You're not afraid to cause a scene, I'll give you that.” 
+		He leads you to the dance floor, but you notice a tentative nature to his step. You've put him on his toes. 
+		<<jump ball>> 
 ===
 title: d_1_5
 ---
-Tries to warn you about dancing with him.
+You catch Logan out on the balcony with a cigarette in his hand. 
+Logan: “Did no one warn you off me? Then allow me.” 
+
 ===
-// add 
+//add 6-8
 
 title: dance_2
 ---
